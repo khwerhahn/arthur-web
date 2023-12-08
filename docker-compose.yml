@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  web:
+    restart: unless-stopped
+    build: .
+    env_file:
+      - .env
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/app
+    command: air ./main.go -b 0.0.0.0
+    networks:
+      - arthur
+
+networks:
+  arthur:
+    name: arthur
+    external: true
+    driver: bridge
+
