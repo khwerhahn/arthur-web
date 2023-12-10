@@ -1,16 +1,23 @@
-FROM golang:latest
+FROM golang:1.21.1
+
+RUN apt-get -y update; apt-get -y install curl
 
 # Enviroment variable
 WORKDIR /app
 
 RUN go install github.com/cosmtrek/air@latest
+RUN go install github.com/a-h/templ/cmd/templ@latest
+# curl tailwindcss and rename it to tailwindcss
+RUN curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/download/v3.3.6/tailwindcss-linux-arm64
+RUN chmod +x tailwindcss-linux-arm64
+RUN mv tailwindcss-linux-arm64 tailwindcss
+RUN ./tailwindcss init
+
 
 #Copying files to work directory
 COPY go.mod ./
 RUN go mod download && go mod verify
 COPY . .
 
-# Run and expose the server on port 3000
-EXPOSE 8080
-
-# CMD [ "nodemon", "build/app.js" ]
+# Run and expose the server on port 8080
+CMD ["air", "-c", "air.toml"]

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"arthur-web/components"
 	"arthur-web/config"
+	"arthur-web/handlers"
 	"context"
 	"log"
 	"net/http"
@@ -11,6 +11,8 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 )
 
@@ -26,10 +28,26 @@ func main() {
 	gin.SetMode(ginMode)
 	router := gin.Default()
 	router.HTMLRender = &TemplRender{}
+	var sessionSecret []byte
+	secretEnv := config.Config("SECRET")
+	if len(secretEnv) > 0 {
+		sessionSecret = []byte(secretEnv)
+	} else {
+		sessionSecret = []byte("secret")
+	}
+	router.Use(sessions.Sessions("session", cookie.NewStore(sessionSecret)))
 
-	router.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "", components.Home())
-	})
+	//////////////////////
+	// Routes
+	// serve static files
+	router.Static("/assets", "./assets")
+	// 404 Handler
+	router.NoRoute(handlers.NotFoundHandler)
+	public := router.Group("/")
+	PublicRoutes(public)
+	private := router.Group("/")
+	PrivateRoutes(private)
+	//////////////////////
 
 	srv := &http.Server{
 		Addr:    ":8080",

@@ -1,0 +1,20 @@
+package layouts
+
+import "arthur-web/components"
+
+templ NoMenuLayout(title string) {
+	<!DOCTYPE html>
+	<html lang="en">
+		@components.HeaderComponent(title)
+		<body>
+			<main class="relative min-h-screen flex flex-col bg-primary">
+				<div class="relative flex min-h-[calc(100vh-60px)] m-2 shadow-md">
+					<div class="flex flex-col flex-1 main-container-content p-2">
+						{ children... }
+					</div>
+				</div>
+				@components.FooterComponent()
+			</main>
+		</body>
+	</html>
+}

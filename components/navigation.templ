@@ -1,0 +1,29 @@
+package components
+
+templ NavigationComponent() {
+	<div class="sticky top-0 z-50 px-2 py-2.5 bg-white">
+		<div
+ 			class="flex flex-row justify-between w-full mx-auto max-w-7xl px-0"
+		>
+			<div class="flex flex-1">
+				<a href="/" class="flex items-center justify-center relative self-center ">
+					<img src="/assets/images/logo_sm.png" class="max-h-8 flex h-full"/>
+				</a>
+			</div>
+			<div class="flex items-center flex-3">
+				<div class="flex items-center justify-between">
+					<div class="text-gray-600">
+						<a href="/">Dashboard</a>
+					</div>
+					<div class="px-2">|</div>
+					<div class="text-gray-600">
+						<a href="/link">Link</a>
+					</div>
+				</div>
+			</div>
+			<div class="flex content-end justify-end flex-1">
+                <a href="/login" class="flex justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primaryalt focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primarylight">Login</a>
+			</div>
+		</div>
+	</div>
+}

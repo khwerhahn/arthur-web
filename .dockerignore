@@ -1,2 +1,4 @@
 Dockerfile.env
 Dockerfile.prod
+tailwindcss
+*.sh

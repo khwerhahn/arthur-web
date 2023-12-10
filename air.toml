@@ -7,18 +7,18 @@ tmp_dir = "tmp"
 
 [build]
 # Just plain old shell command. You could use `make` as well.
-cmd = "templ generate && ./tailwindcss -c ./tailwind.config.js -i ./assets/styles/input.css -o ./assets/styles/output.css && go build -o ./tmp/main ."
+cmd = "templ generate && go build -o ./tmp/main ."
 # Binary file yields from `cmd`.
 bin = "tmp/main"
 # Customize binary, can setup environment variables when run your app.
 full_bin = "APP_USER=air ./tmp/main"
 # Watch these filename extensions.
-include_ext = ["go", "tpl", "tmpl", "html","css", "templ"]
+include_ext = ["go", "tpl", "css", "templ"]
 exclude_regex = [".*_templ.go"]
 # Ignore these filename extensions or directories.
-exclude_dir = ["assets", "tmp"]
+exclude_dir = ["tmp"]
 # Watch these directories if you specified.
-include_dir = ["components","services","database"]
+include_dir = ["components","services","database","views","assets","handlers","layouts","models"]
 # Watch these files.
 include_file = []
 # Exclude files.
@@ -46,7 +46,7 @@ rerun = false
 # Delay after each executions
 rerun_delay = 500
 # Add additional arguments when running binary (bin/full_bin). Will run './tmp/main hello world'.
-args_bin = ["hello", "world"]
+args_bin = []
 
 [log]
 # Show log time
