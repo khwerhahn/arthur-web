@@ -18,4 +18,6 @@ func PublicRoutes(g *gin.RouterGroup) {
 
 func PrivateRoutes(g *gin.RouterGroup) {
 
+	// Dashboard
+	g.GET("/dashboard", handlers.DashboardHandler())
 }

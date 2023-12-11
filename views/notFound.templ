@@ -1,9 +1,7 @@
 package views
 
-import "arthur-web/layouts"
-
-templ NotFoundPage() {
-	@layouts.NoMenuLayout("404") {
+templ NotFoundPage(viewobj *ViewObj){
+	@NoMenuLayout(viewobj) {
 		<div class="flex items-center justify-center flex-1 w-[90%] md:w-[75%] lg:w-[50%] self-center">
 			<div class="text-center">
 				<h1 class="text-2xl font-bold">404</h1>

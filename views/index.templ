@@ -1,9 +1,8 @@
 package views
 
-import "arthur-web/layouts"
 
 templ IndexPage(viewObj *ViewObj) {
-	@layouts.DefaultLayout(viewObj.Title) {
+	@DefaultLayout(viewObj) {
         <p>This is the index page</p>
     }
 }

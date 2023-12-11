@@ -1,0 +1,67 @@
+package views
+
+templ FooterComponent() {
+	<footer class="flex flex-row justify-between w-full mx-auto max-w-7xl px-2">
+		<div class="flex flex-row justify-start flex-1">
+			<p class="text-center text-sm md:text-base text-gray-400">Munich, Germany</p>
+		</div>
+		<div class="flex flex-row flex-1 justify-center">
+			<div class="flex text-center text-sm md:text-base text-gray-400">Imprint</div>
+		</div>
+		<div class="flex flex-1 justify-end">
+			//social media icons white only
+			<div class="flex flex-row justify-center items-end content-end">
+				<a href="https://www.linkedin.com/in/alexander-kr%C3%BCger-1b1b0b1b0/" target="_blank" rel="noopener noreferrer">
+					<img class="w-[1.5rem] h-[1.5rem] mx-1" src="https://img.icons8.com/ios-filled/50/000000/linkedin.png"/>
+				</a>
+			</div>
+		</div>
+	</footer>
+}
+
+templ HeaderComponent(title string) {
+  <head>
+    <meta charset="utf-8" />
+    if len(title) >= 1 {
+        <title>{title}</title>
+        } else {
+            <title>{title}</title>
+    }
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="index, follow" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="language" content="English" />
+    <link rel="stylesheet" href="/assets/styles/output.css" />
+    <link rel="stylesheet" href="/assets/styles/styles.css" />
+    <script src="https://unpkg.com/htmx.org@1.9.5"></script>
+    <script src="https://unpkg.com/htmx.org/dist/ext/sse.js"></script>
+  </head>
+}
+
+templ NavigationComponent() {
+	<div class="sticky top-0 z-50 px-2 py-2.5 bg-white">
+		<div
+ 			class="flex flex-row justify-between w-full mx-auto max-w-7xl px-0"
+		>
+			<div class="flex flex-1">
+				<a href="/" class="flex items-center justify-center relative self-center ">
+					<img src="/assets/images/logo_sm.png" class="max-h-8 flex h-full"/>
+				</a>
+			</div>
+			<div class="flex items-center flex-3">
+				<div class="flex items-center justify-between">
+					<div class="text-gray-600">
+						<a href="/dashboard">Dashboard</a>
+					</div>
+					<div class="px-2">|</div>
+					<div class="text-gray-600">
+						<a href="/link">Link</a>
+					</div>
+				</div>
+			</div>
+			<div class="flex content-end justify-end flex-1">
+                <a href="/login" class="flex justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primaryalt focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primarylight">Login</a>
+			</div>
+		</div>
+	</div>
+}

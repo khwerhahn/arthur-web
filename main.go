@@ -2,8 +2,11 @@ package main
 
 import (
 	"arthur-web/config"
+	"arthur-web/database"
 	"arthur-web/handlers"
+	"arthur-web/seed"
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -17,6 +20,18 @@ import (
 )
 
 func main() {
+	// env
+	env := config.Config("APP_ENV")
+	fmt.Println("APP_ENV: ", env)
+	// database
+	database.ConnectDB()
+	// seed
+	if env == "dev" {
+		seed.SeedAll(database.DB)
+	}
+
+	// gin router
+
 	ginMode := ""
 	ginModeEnv := config.Config("GIN_MODE")
 	if ginModeEnv == "release" {
@@ -35,6 +50,7 @@ func main() {
 	} else {
 		sessionSecret = []byte("secret")
 	}
+
 	router.Use(sessions.Sessions("session", cookie.NewStore(sessionSecret)))
 
 	//////////////////////

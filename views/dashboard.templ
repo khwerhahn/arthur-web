@@ -1,0 +1,9 @@
+package views
+
+templ DashboardPage(viewObj *ViewObj) {
+	@DefaultLayout(viewObj) {
+		<h1>Dashboard</h1>
+		<h3>Hi { viewObj.Session.FirstName },</h3>
+		<p>This is the authenticated dashboard page</p>
+	}
+}

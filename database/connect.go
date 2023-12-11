@@ -1,12 +1,11 @@
 package database
 
 import (
+	"arthur-web/config"
+	"arthur-web/models"
 	"fmt"
 	"log"
 	"strconv"
-
-	"github.com/khwerhahn/arthur-web/config"
-	"github.com/khwerhahn/arthur-web/model"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -32,7 +31,6 @@ func ConnectDB() {
 		// neon database connection string
 		dsn = config.Config("DATABASE_URL")
 	} else {
-
 		p := config.Config("DB_PORT")
 		port, err := strconv.ParseUint(p, 10, 32)
 
@@ -67,11 +65,11 @@ func ConnectDB() {
 	if env == "dev" {
 		log.Println("In Development Mode")
 		log.Println("Dropping all tabless")
-		err := DB.Migrator().DropTable(&model.UsersAccounts{}, &model.StakeKeyHistory{}, &model.Epoch{}, &model.MarketData{}, &model.Account{})
+		err := DB.Migrator().DropTable(&models.User{})
 		if err != nil {
 			panic(err)
 		}
-		DB.AutoMigrate(&model.Epoch{}, &model.User{}, &model.Account{}, &model.StakeKeyHistory{}, &model.MarketData{}, &model.UsersAccounts{})
+		DB.AutoMigrate(&models.User{})
 		fmt.Println("Database Migrated")
 	}
 
