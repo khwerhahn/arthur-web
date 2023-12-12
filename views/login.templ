@@ -5,29 +5,45 @@ templ Login(viewObj *ViewObj) {
 		<div class="flex items-center justify-center flex-1 w-[90%] md:w-[75%] lg:w-[50%] self-center">
 			<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 border shadow-md rounded-md">
 				<div class="sm:mx-auto sm:w-full sm:max-w-sm">
-					<h2 class="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in to your account</h2>
+					<h2 class="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Login</h2>
 				</div>
-				<div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-					<form class="space-y-6" action="#" method="POST">
+				// dispay Errors if errors exist and errors map contains "form" (map[string]string)
+				if len(viewObj.Errors) > 0 && viewObj.Errors["form"] != "" {
+					<div class="mt-6 text-center text-red-500">
+						<p class="text-sm font-semibold leading-5">{ viewObj.Errors["form"] }</p>
+					</div>
+				}
+				<div class="mt-10 mx-auto md:min-w-[300px]">
+					<form class="space-y-6" action="/login" method="POST">
 						<div>
-							<label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
+							<label for="email" class="block text-sm font-medium leading-6 text-gray-900">Username or Email</label>
 							<div class="mt-2">
-								<input id="email" name="email" type="email" autocomplete="email" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+								// error message if errors exist and errors map contains "user" (map[string]string)
+								if len(viewObj.Errors) > 0 && viewObj.Errors["user"] != "" {
+									<input id="user" name="user" type="text" required class="block w-full rounded-md border-2 border-red-500  py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 text-red-500"/>
+								} else {
+									// normal field
+									<input id="user" name="user" type="text" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+								}
 							</div>
 						</div>
 						<div>
 							<div class="flex items-center justify-between">
 								<label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
-								<div class="text-sm">
+								<div class="text-sm ml-4">
 									<a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</a>
 								</div>
 							</div>
 							<div class="mt-2">
-								<input id="password" name="password" type="password" autocomplete="current-password" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+								if len(viewObj.Errors) > 0 && viewObj.Errors["password"] != "" {
+									<input id="password" name="password" type="password" autocomplete="current-password" required class="block w-full rounded-md border-2 border-red-500 py-1.5 text-red-500 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+								} else {
+									<input id="password" name="password" type="password" autocomplete="current-password" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+								}
 							</div>
 						</div>
 						<div>
-							<button type="submit" class="flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primaryalt focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primarylight">Sign in</button>
+							<button type="submit" value="login" class="flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primaryalt focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primarylight">Sign in</button>
 						</div>
 					</form>
 				</div>

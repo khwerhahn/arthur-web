@@ -3,6 +3,7 @@ package main
 import (
 	"arthur-web/config"
 	"arthur-web/database"
+	"arthur-web/globals"
 	"arthur-web/handlers"
 	"arthur-web/seed"
 	"context"
@@ -51,7 +52,7 @@ func main() {
 		sessionSecret = []byte("secret")
 	}
 
-	router.Use(sessions.Sessions("session", cookie.NewStore(sessionSecret)))
+	router.Use(sessions.Sessions(globals.CookieName, cookie.NewStore(sessionSecret)))
 
 	//////////////////////
 	// Routes

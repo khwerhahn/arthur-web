@@ -47,3 +47,7 @@ func (u *User) BeforeCreate(tx *gorm.DB) error {
 	return nil
 
 }
+
+func (u *User) ComparePassword(password string) error {
+	return bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
+}

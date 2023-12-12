@@ -1,62 +1,26 @@
 package auth
 
 import (
+	"arthur-web/database"
+	"arthur-web/models"
 	"errors"
-	"fmt"
-	"time"
-
-	"github.com/golang-module/carbon/v2"
-	"golang.org/x/crypto/bcrypt"
 )
 
-type Cookie struct {
-	Name     string
-	Value    string
-	MaxAge   *time.Time
-	Path     string
-	Domain   string
-	Secure   bool
-	HttpOnly bool
-	SameSite int
-}
+func AuthenticateUser(user string, password string) (bool, bool, error) {
+	DB := database.DB
 
-// CreateToken is function to create a cookie
-func CreateToken(id uint, username string) (*Cookie, error) {
-	value := map[string]string{
-		"id":       fmt.Sprintf("%d", id),
-		"username": username,
+	// get user from database where username and password match
+	var dbUser models.User
+	DB.Where("username = ? OR email = ?", user, user).First(&dbUser)
+	// if user is empty return errors
+	if dbUser.Username == "" {
+		return false, false, errors.New("authentication failed")
 	}
-	// hashedValue with secret
-	hashedValue, err := bcrypt.GenerateFromPassword([]byte(value), bcrypt.DefaultCost)
+	// compare password
+	err := dbUser.ComparePassword(password)
 	if err != nil {
-		return nil, err
+		return false, false, errors.New("authentication failed")
 	}
-
-	// max age is 7 days from now
-	maxAgeDate := carbon.Now().AddDays(7)
-
-	return &Cookie{
-		Name:     "arthur-cookie",
-		Value:    string(hashedValue),
-		MaxAge:   &maxAgeDate,
-		Path:     "/",
-		Domain:   "localhost",
-		Secure:   false,
-		HttpOnly: true,
-		SameSite: 0,
-	}, nil
-}
-
-func CheckCookie(cookie *Cookie, id uint, username string) (bool, error) {
-	value := map[string]string{
-		"id":       fmt.Sprintf("%d", id),
-		"username": username,
-	}
-
-	// check if cookie is valid
-	err := bcrypt.CompareHashAndPassword([]byte(cookie.Value), []byte(value))
-	if err != nil {
-		return false, errors.New("invalid cookie")
-	}
-	return true, nil
+	isAdmin := dbUser.IsAdmin
+	return true, isAdmin, nil
 }

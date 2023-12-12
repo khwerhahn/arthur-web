@@ -31,3 +31,7 @@ func NewViewObj(title string) *ViewObj {
 func (v *ViewObj) UpdateSession(session *SessionDataView) {
 	v.Session = session
 }
+
+func (v *ViewObj) AddError(key, value string) {
+	v.Errors[key] = value
+}
