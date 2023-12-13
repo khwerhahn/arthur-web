@@ -5,10 +5,10 @@ import (
 	"arthur-web/globals"
 	"arthur-web/views"
 	"net/http"
+	"time"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
-	"github.com/golang-module/carbon/v2"
 )
 
 func LoginHandler() gin.HandlerFunc {
@@ -48,12 +48,9 @@ func LoginPostHandler() gin.HandlerFunc {
 			session.Set(globals.Userkey, user)
 			session.Set(globals.IsAuthenticated, true)
 			session.Set(globals.IsAdmin, isAdmin)
-			// cookie expires after 1 minute
-			timeNow := carbon.Now()
-			timeNow.AddMinute()
-			// to unix
-			timeNowString := timeNow.Timestamp()
-			session.Set(globals.ValidUntil, timeNowString)
+			// cookie expires after 1 wminute
+			expirtationTime := time.Now().Add(10 * time.Minute)
+			session.Set(globals.ValidUntil, int(expirtationTime.Unix()))
 			session.Save()
 			c.Redirect(http.StatusFound, "/dashboard")
 			return

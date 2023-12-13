@@ -9,8 +9,14 @@ import (
 
 func DashboardHandler() gin.HandlerFunc {
 	// create a new ViewObj
-	dashboardViewObj := views.NewViewObj("Dashboard")
+
 	return func(c *gin.Context) {
+		dashboardViewObj := views.NewViewObj("Dashboard")
+		dashboardViewObj, err := GetSessionData(c, dashboardViewObj)
+		if err != nil {
+			c.HTML(http.StatusBadRequest, "", views.Login(dashboardViewObj))
+			return
+		}
 		c.HTML(http.StatusOK, "", views.DashboardPage(dashboardViewObj))
 	}
 }
