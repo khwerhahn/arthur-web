@@ -64,7 +64,7 @@ func (v *ViewObj) UpdateViewObjSession(c *gin.Context) (*ViewObj, error) {
 	// get user data
 	if userID != 0 {
 		var user models.User
-		DB.Debug().Where("id = ?", userID).First(&user)
+		DB.Where("id = ?", userID).First(&user)
 		if user.Username == "" {
 			return v, nil
 		}
