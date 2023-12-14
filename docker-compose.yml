@@ -12,7 +12,7 @@ services:
     volumes:
       - ./:/app
     networks:
-      - arthur
+      - template
     depends_on:
       - db
   db:
@@ -24,16 +24,16 @@ services:
     ports:
       - ${DB_PORT}:${DB_PORT}
     volumes:
-      - postgres-arthur:/var/lib/postgresql/data
+      - postgres-template:/var/lib/postgresql/data
     networks:
-      - arthur
+      - template
 
 volumes:
-  postgres-arthur:
+  postgres-template:
 
 networks:
-  arthur:
-    name: arthur
+  template:
+    name: template
     external: true
     driver: bridge
 

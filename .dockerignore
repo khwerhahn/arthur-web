@@ -2,3 +2,4 @@ Dockerfile.env
 Dockerfile.prod
 tailwindcss
 *.sh
+.DS_Store
