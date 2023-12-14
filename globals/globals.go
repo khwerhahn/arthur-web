@@ -6,3 +6,5 @@ const Userkey = "user"                    // string
 const ValidUntil = "validUntil"           // time.Time
 const IsAdmin = "isAdmin"                 // bool
 const IsAuthenticated = "isAuthenticated" // bool
+const UserID = "userID"                   // uint
+const ProfileImageUrl = "profileImageUrl" // string

@@ -13,6 +13,7 @@ func PublicRoutes(g *gin.RouterGroup) {
 
 	g.GET("/login", handlers.LoginHandler())
 	g.POST("/login", handlers.LoginPostHandler())
+	g.GET("/logout", handlers.LogoutHandler())
 	g.GET("/", handlers.IndexHandler())
 
 }

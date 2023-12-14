@@ -13,7 +13,7 @@ import (
 
 func LoginHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.HTML(http.StatusOK, "", views.Login(views.NewViewObj("Login")))
+		c.HTML(http.StatusOK, "", views.Login(views.NewViewObj("Login", "/login")))
 	}
 }
 
@@ -25,7 +25,7 @@ func LoginPostHandler() gin.HandlerFunc {
 		// validate user and password
 		// if empty return error
 		if user == "" || password == "" {
-			newViewObj := views.NewViewObj("Login")
+			newViewObj := views.NewViewObj("Login", "/login")
 			newViewObj.AddError("form", "User or password cannot be empty")
 			newViewObj.AddError("user", "User can't be empty")
 			newViewObj.AddError("password", "Password can't be empty")
@@ -34,20 +34,22 @@ func LoginPostHandler() gin.HandlerFunc {
 		}
 
 		// authenticate user
-		isAuthenticated, isAdmin, err := auth.AuthenticateUser(user, password)
+		userDB, err := auth.AuthenticateUser(user, password)
 		if err != nil {
-			newViewObj := views.NewViewObj("Login")
+			newViewObj := views.NewViewObj("Login", "/login")
 			newViewObj.AddError("form", "User or password incorrect")
 			newViewObj.AddError("user", "User or password incorrect")
 			newViewObj.AddError("password", "User or password incorrect")
 			c.HTML(http.StatusBadRequest, "", views.Login(newViewObj))
 			return
-		} else if isAuthenticated {
+		} else if userDB.ID != 0 {
 			// create session and redirect to dashboard
 			session := sessions.Default(c)
 			session.Set(globals.Userkey, user)
 			session.Set(globals.IsAuthenticated, true)
-			session.Set(globals.IsAdmin, isAdmin)
+			session.Set(globals.IsAdmin, userDB.IsAdmin)
+			session.Set(globals.UserID, userDB.ID)
+			session.Set(globals.ProfileImageUrl, userDB.ProfileImageUrl)
 			// cookie expires after 1 wminute
 			expirtationTime := time.Now().Add(10 * time.Minute)
 			session.Set(globals.ValidUntil, int(expirtationTime.Unix()))
@@ -55,7 +57,7 @@ func LoginPostHandler() gin.HandlerFunc {
 			c.Redirect(http.StatusFound, "/dashboard")
 			return
 		} else {
-			newViewObj := views.NewViewObj("Login")
+			newViewObj := views.NewViewObj("Login", "/login")
 			// unknown error
 			newViewObj.AddError("form", "Something went wrong")
 			c.HTML(http.StatusBadRequest, "", views.Login(newViewObj))

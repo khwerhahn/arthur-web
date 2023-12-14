@@ -13,14 +13,15 @@ import (
 
 type User struct {
 	gorm.Model
-	Username  string     `gorm:"unique;not null;size:50;" validate:"required,min=3,max=50" json:"username"`
-	Email     string     `gorm:"unique;not null;size:255;" validate:"required,email" json:"email"`
-	Password  string     `gorm:"not null;" validate:"required,min=6,max=50" json:"password"`
-	FirstName string     `gorm:"not null;size:50;" validate:"required,min=3,max=50" json:"first_name"`
-	LastName  string     `gorm:"not null;size:50;" validate:"required,min=3,max=200" json:"last_name"`
-	IsAdmin   bool       `gorm:"default:false" json:"is_admin"`
-	CreatedAt *time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
-	UpdatedAt *time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
+	Username        string     `gorm:"unique;not null;size:50;" validate:"required,min=3,max=50" json:"username"`
+	Email           string     `gorm:"unique;not null;size:255;" validate:"required,email" json:"email"`
+	Password        string     `gorm:"not null;" validate:"required,min=6,max=50" json:"password"`
+	FirstName       string     `gorm:"not null;size:50;" validate:"required,min=3,max=50" json:"first_name"`
+	LastName        string     `gorm:"not null;size:50;" validate:"required,min=3,max=200" json:"last_name"`
+	IsAdmin         bool       `gorm:"default:false" json:"is_admin"`
+	ProfileImageUrl string     `gorm:"default:'https://i.pravatar.cc/100?img=15'" json:"image_url"`
+	CreatedAt       *time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
+	UpdatedAt       *time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 }
 
 func (u *User) SaveUser(DB *gorm.DB) (*User, error) {

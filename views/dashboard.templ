@@ -2,8 +2,10 @@ package views
 
 templ DashboardPage(viewObj *ViewObj) {
 	@DefaultLayout(viewObj) {
-		<h1>Dashboard</h1>
-		<h3>Hi { viewObj.Session.FirstName },</h3>
-		<p>This is the authenticated dashboard page</p>
+		<div class="flex flex-col">
+            <h1>Dashboard</h1>
+			<h2>Welcome { viewObj.Session.FirstName },</h2>
+			<p>This is the authenticated dashboard page</p>
+		</div>
 	}
 }

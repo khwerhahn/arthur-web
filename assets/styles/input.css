@@ -1,3 +1,110 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.main-container-content {
+    background-color: rgba(255, 255, 255, 1);
+    transition: 280ms all 120ms ease-out;
+}
+
+input {
+    padding-left: 4px;
+}
+
+/* //////////////////////////////////// */
+/*  Menu & Navigation */
+/* round image with border with picture cut of */
+.navigation {
+
+    a {
+      transition: 120ms all 120ms ease-out;
+
+      &:hover {
+        font-weight: 600;
+      }
+
+      &:focus {
+        outline: none;
+        font-weight: 600;
+      }
+    }
+
+
+}
+
+.profile-avatar {
+    width: auto;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.profile-avatar img {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.dropdown {
+  position: relative;
+
+  .dropdown__menu {
+    position: absolute;
+    width: auto;
+    min-width: 100%;
+    top: calc(100% + 0.1rem);
+    transition: 280ms all 120ms ease-out;
+    transform: rotateX(-90deg) translateX(0%);
+    transform-origin: top center;
+    visibility: hidden;
+    opacity: 0.3;
+    background-color: #fff;
+
+    a {
+      display: block;
+      opacity: 0;
+      transition: 280ms all 120ms ease-out;
+
+      &:hover {
+        font-weight: 600;
+      }
+
+      &:focus {
+        outline: none;
+        font-weight: 600;
+      }
+    }
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    top: calc(100% - 1.25rem);
+    transform: translateX(-50%);
+    transition: 280ms all 120ms ease-out;
+    opacity: 0;
+    will-change: opacity;
+  }
+
+  &:hover,
+  &:focus-within {
+    .dropdown__title {
+      border-top-color: pink;
+    }
+
+    .dropdown__menu {
+      opacity: 1;
+      transform: rotateX(0) translateX(0%);
+      visibility: visible;
+
+      a {
+        opacity: 1;
+      }
+    }
+
+    &:after {
+      opacity: 1;
+    }
+  }
+}

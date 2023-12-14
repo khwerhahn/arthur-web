@@ -10,6 +10,7 @@ import (
 // 404 handler
 
 func NotFoundHandler(c *gin.Context) {
-	viewObj := views.NewViewObj("404")
+	viewObj := views.NewViewObj("404", "/404")
 	c.HTML(http.StatusNotFound, "", views.NotFoundPage(viewObj))
+	return
 }

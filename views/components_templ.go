@@ -98,7 +98,7 @@ func HeaderComponent(title string) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><meta name=\"robots\" content=\"index, follow\"><meta name=\"revisit-after\" content=\"7 days\"><meta name=\"language\" content=\"English\"><link rel=\"stylesheet\" href=\"/assets/styles/output.css\"><link rel=\"stylesheet\" href=\"/assets/styles/styles.css\"><script src=\"https://unpkg.com/htmx.org@1.9.5\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><meta name=\"robots\" content=\"index, follow\"><meta name=\"revisit-after\" content=\"7 days\"><meta name=\"language\" content=\"English\"><link rel=\"stylesheet\" href=\"/assets/styles/output.css\"><script src=\"https://unpkg.com/htmx.org@1.9.5\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -140,7 +140,7 @@ func NavigationComponent(viewObj *ViewObj) templ.Component {
 			templ_7745c5c3_Var9 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"sticky top-0 z-50 px-2 py-2.5 bg-white\"><div class=\"flex flex-row justify-between w-full mx-auto max-w-7xl px-0\"><div class=\"flex flex-1\"><a href=\"/\" class=\"flex items-center justify-center relative self-center \"><img src=\"/assets/images/logo_sm.png\" class=\"max-h-8 flex h-full\"></a></div><div class=\"flex items-center flex-3\"><div class=\"flex items-center justify-between\"><div class=\"text-gray-600\"><a href=\"/dashboard\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"sticky top-0 z-50 px-2 py-2.5 bg-white\"><div class=\"flex flex-row justify-between w-full mx-auto max-w-7xl px-0\"><div class=\"flex flex-1\"><a href=\"/\" class=\"flex items-center justify-center relative self-center \"><img src=\"/assets/images/logo_sm.png\" class=\"max-h-6 md:max-h-8 flex h-full\"></a></div><div class=\"hidden md:flex items-center flex-3\"><div class=\"flex items-center justify-between navigation\"><div class=\"text-gray-600\"><a href=\"/dashboard\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -172,7 +172,7 @@ func NavigationComponent(viewObj *ViewObj) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		if viewObj.Session.IsAuthenticated {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" <div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" <div class=\"flex justify-center align-middle text-center border rounded-md px-4 py-2 dropdown\"><div class=\"hidden md:flex justify-center align-middle pr-2 self-center\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -181,7 +181,42 @@ func NavigationComponent(viewObj *ViewObj) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"rounded-full border aspect-square profile-avatar max-h-6 md:max-h-8\"><img src=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(viewObj.Session.ProfilePictureUrl))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" alt=\":-)\"></div><div class=\"px-2 flex justify-center align-middle self-center\"><img src=\"/assets/images/dropdown.svg\" class=\"w-3 h-3\"></div><ul class=\"dropdown__menu border text-sm md:text-base rounded-md w-auto\"><li class=\"md:hidden m-2\"><a href=\"/dashboard\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Var14 := `Dashboard`
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var14)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a></li><li class=\"md:hidden m-2\"><a href=\"/link\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Var15 := `Link`
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var15)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a></li><li class=\"m-2\"><a href=\"/logout\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Var16 := `Logout`
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var16)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a></li></ul></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -190,8 +225,8 @@ func NavigationComponent(viewObj *ViewObj) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Var14 := `Login`
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var14)
+			templ_7745c5c3_Var17 := `Login`
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var17)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

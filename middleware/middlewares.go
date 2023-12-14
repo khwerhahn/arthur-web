@@ -14,6 +14,7 @@ func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// get cookie details
 		session := sessions.Default(c)
+		fmt.Println("session: ", session)
 		isAuthenticated := session.Get(globals.IsAuthenticated)
 		isAdmin := session.Get(globals.IsAdmin)
 		validUntil := session.Get(globals.ValidUntil)

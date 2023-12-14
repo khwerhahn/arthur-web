@@ -12,8 +12,14 @@ import (
 // IndexHandler handles the index routes
 func IndexHandler() gin.HandlerFunc {
 	// create a new ViewObj
-	indexViewObj := views.NewViewObj("Index")
 	return func(c *gin.Context) {
+		indexViewObj := views.NewViewObj("Index", "/")
+		indexViewObj, err := indexViewObj.UpdateViewObjSession(c)
+		if err != nil {
+			c.HTML(http.StatusBadRequest, "", views.Login(indexViewObj))
+			return
+		}
 		c.HTML(http.StatusOK, "", views.IndexPage(indexViewObj))
+		return
 	}
 }

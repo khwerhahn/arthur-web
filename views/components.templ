@@ -32,7 +32,6 @@ templ HeaderComponent(title string) {
 		<meta name="revisit-after" content="7 days"/>
 		<meta name="language" content="English"/>
 		<link rel="stylesheet" href="/assets/styles/output.css"/>
-		<link rel="stylesheet" href="/assets/styles/styles.css"/>
 		<script src="https://unpkg.com/htmx.org@1.9.5"></script>
 		<script src="https://unpkg.com/htmx.org/dist/ext/sse.js"></script>
 	</head>
@@ -45,11 +44,11 @@ templ NavigationComponent(viewObj *ViewObj) {
 		>
 			<div class="flex flex-1">
 				<a href="/" class="flex items-center justify-center relative self-center ">
-					<img src="/assets/images/logo_sm.png" class="max-h-8 flex h-full"/>
+					<img src="/assets/images/logo_sm.png" class="max-h-6 md:max-h-8 flex h-full"/>
 				</a>
 			</div>
-			<div class="flex items-center flex-3">
-				<div class="flex items-center justify-between">
+			<div class="hidden md:flex items-center flex-3">
+				<div class="flex items-center justify-between navigation">
 					<div class="text-gray-600">
 						<a href="/dashboard">Dashboard</a>
 					</div>
@@ -62,7 +61,21 @@ templ NavigationComponent(viewObj *ViewObj) {
 			<div class="flex content-end justify-end flex-1">
 				if viewObj.Session.IsAuthenticated {
 					// show user menu
-					<div>{ viewObj.Session.FirstName }</div>
+					<div class="flex justify-center align-middle text-center border rounded-md px-4 py-2 dropdown">
+						<div class="hidden md:flex justify-center align-middle pr-2 self-center">{ viewObj.Session.FirstName }</div>
+						<div class="rounded-full border aspect-square profile-avatar max-h-6 md:max-h-8">
+							<img src={ viewObj.Session.ProfilePictureUrl } alt=":-)"/>
+						</div>
+						<div class="px-2 flex justify-center align-middle self-center">
+							// svg
+							<img src="/assets/images/dropdown.svg" class="w-3 h-3"/>
+						</div>
+						<ul class="dropdown__menu border text-sm md:text-base rounded-md w-auto">
+                            <li class="md:hidden m-2"><a href="/dashboard">Dashboard</a></li>
+                            <li class="md:hidden m-2"><a href="/link">Link</a></li>
+							<li class="m-2"><a href="/logout">Logout</a></li>
+						</ul>
+					</div>
 				} else {
 					<a href="/login" class="flex justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primaryalt focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primarylight">Login</a>
 				}
