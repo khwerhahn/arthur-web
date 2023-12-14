@@ -1,7 +1,7 @@
 #!/bin/bash -xe
 echo "||||||||||||||||||||||||||||||||||||||||||||"
 echo "||        Starting Local Development      ||"
-echo "||               Arthur-Web               ||"
+echo "||                Template                ||"
 echo "||||||||||||||||||||||||||||||||||||||||||||"
 
 echo "Launching Infrastructure"
