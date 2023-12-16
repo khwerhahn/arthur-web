@@ -38,14 +38,28 @@ templ HeaderComponent(title string) {
 }
 
 templ NavigationComponent(viewObj *ViewObj) {
-	<div class="sticky top-0 z-50 px-2 py-2.5 bg-white">
+	<div
+ 		class="sticky top-0 z-50 px-2 py-2.5 bg-white"
+	>
 		<div
  			class="flex flex-row justify-between w-full mx-auto max-w-7xl px-0"
 		>
 			<div class="flex flex-1">
-				<a href="/" class="flex items-center justify-center relative self-center ">
-					<img src="/assets/images/logo_sm.png" class="max-h-6 md:max-h-8 flex h-full"/>
-				</a>
+				if viewObj.Session.IsAuthenticated {
+					<div class="flex items-center justify-center relative self-center ">
+						ADA:&nbsp;<span
+ 	id="ticker"
+ 	class="text-primary font-semibold"
+ 	hx-ext="sse"
+ 	sse-connect="/sse/navbar"
+ 	sse-swap="message"
+>XY</span>
+					</div>
+				} else {
+					<a href="/" class="flex items-center justify-center relative self-center ">
+						<img src="/assets/images/logo_sm.png" class="max-h-6 md:max-h-8 flex h-full"/>
+					</a>
+				}
 			</div>
 			<div class="hidden md:flex items-center flex-3">
 				<div class="flex items-center justify-between navigation">
@@ -71,8 +85,8 @@ templ NavigationComponent(viewObj *ViewObj) {
 							<img src="/assets/images/dropdown.svg" class="w-3 h-3"/>
 						</div>
 						<ul class="dropdown__menu border text-sm md:text-base rounded-md w-auto">
-                            <li class="md:hidden m-2"><a href="/dashboard">Dashboard</a></li>
-                            <li class="md:hidden m-2"><a href="/link">Link</a></li>
+							<li class="md:hidden m-2"><a href="/dashboard">Dashboard</a></li>
+							<li class="md:hidden m-2"><a href="/link">Link</a></li>
 							<li class="m-2"><a href="/logout">Logout</a></li>
 						</ul>
 					</div>

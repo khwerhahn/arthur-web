@@ -10,11 +10,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func AuthMiddleware() gin.HandlerFunc {
+func AuthMiddleware(sse bool) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// get cookie details
 		session := sessions.Default(c)
-		fmt.Println("session: ", session)
 		isAuthenticated := session.Get(globals.IsAuthenticated)
 		isAdmin := session.Get(globals.IsAdmin)
 		validUntil := session.Get(globals.ValidUntil)
@@ -40,6 +39,15 @@ func AuthMiddleware() gin.HandlerFunc {
 			// forward to login
 			c.Redirect(http.StatusFound, "/login")
 			return
+		}
+
+		// if sse
+		if sse {
+			// set response headers
+			c.Writer.Header().Set("Content-Type", "text/event-stream")
+			c.Writer.Header().Set("Cache-Control", "no-cache")
+			c.Writer.Header().Set("Connection", "keep-alive")
+			c.Writer.Header().Set("Transfer-Encoding", "chunked")
 		}
 
 		// else continue

@@ -63,7 +63,7 @@ func main() {
 	public := router.Group("/")
 	PublicRoutes(public)
 	private := router.Group("/")
-	PrivateRoutes(private)
+	PrivateRoutes(private, database.DB)
 	//////////////////////
 
 	srv := &http.Server{

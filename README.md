@@ -1,4 +1,5 @@
-# Template Go + Gin + Templ + Tailwind
+# Arthur Web
+Build with go-starter-template
 
 ## Install
 - Docker needs to be installed

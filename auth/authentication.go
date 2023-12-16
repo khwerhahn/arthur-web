@@ -2,16 +2,16 @@ package auth
 
 import (
 	"arthur-web/database"
-	"arthur-web/models"
+	"arthur-web/model"
 	"errors"
 	"fmt"
 )
 
-func AuthenticateUser(user string, password string) (*models.User, error) {
+func AuthenticateUser(user string, password string) (*model.User, error) {
 	DB := database.DB
 
 	// get user from database where username and password match
-	var dbUser models.User
+	var dbUser model.User
 	DB.Where("username = ? OR email = ?", user, user).First(&dbUser)
 	// if user is empty return errors
 	if dbUser.Username == "" {

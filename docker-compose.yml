@@ -13,23 +13,23 @@ services:
       - ./:/app
     networks:
       - arthur
-    depends_on:
-      - db
-  db:
-    image: postgres:alpine
-    environment:
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DB_NAME}
-    ports:
-      - ${DB_PORT}:${DB_PORT}
-    volumes:
-      - postgres-arthur:/var/lib/postgresql/data
-    networks:
-      -  arthur
+    # depends_on:
+    #   - db
+  # db:
+  #   image: postgres:alpine
+  #   environment:
+  #     - POSTGRES_USER=${DB_USER}
+  #     - POSTGRES_PASSWORD=${DB_PASSWORD}
+  #     - POSTGRES_DB=${DB_NAME}
+  #   ports:
+  #     - ${DB_PORT}:${DB_PORT}
+  #   volumes:
+  #     - postgres-arthur:/var/lib/postgresql/data
+  #   networks:
+  #     -  arthur
 
-volumes:
-  postgres-arthur:
+# volumes:
+#   postgres-arthur:
 
 networks:
   arthur:

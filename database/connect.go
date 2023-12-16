@@ -2,7 +2,7 @@ package database
 
 import (
 	"arthur-web/config"
-	"arthur-web/models"
+	"arthur-web/model"
 	"fmt"
 	"log"
 	"strconv"
@@ -61,15 +61,17 @@ func ConnectDB() {
 
 	// execute the uuid-ossp extension
 	DB.Exec("CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\";")
-
 	if env == "dev" {
+		doDropTables := false
 		log.Println("In Development Mode")
-		log.Println("Dropping all tabless")
-		err := DB.Migrator().DropTable(&models.User{})
-		if err != nil {
-			panic(err)
+		if doDropTables {
+			log.Println("Dropping all tabless")
+			err := DB.Migrator().DropTable(&model.UsersAccounts{}, &model.StakeKeyHistory{}, &model.Epoch{}, &model.MarketData{}, &model.Account{})
+			if err != nil {
+				panic(err)
+			}
 		}
-		DB.AutoMigrate(&models.User{})
+		DB.AutoMigrate(&model.Epoch{}, &model.User{}, &model.Account{}, &model.StakeKeyHistory{}, &model.MarketData{}, &model.UsersAccounts{})
 		fmt.Println("Database Migrated")
 	}
 

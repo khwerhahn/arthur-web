@@ -5,6 +5,7 @@ import (
 	"arthur-web/middleware"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 // manage gin routes
@@ -18,9 +19,8 @@ func PublicRoutes(g *gin.RouterGroup) {
 
 }
 
-func PrivateRoutes(g *gin.RouterGroup) {
-	// all routes in this group are private and require AuthMiddleware
-	g.Use(middleware.AuthMiddleware())
+func PrivateRoutes(g *gin.RouterGroup, DB *gorm.DB) {
 	// Dashboard
-	g.GET("/dashboard", handlers.DashboardHandler())
+	g.GET("/dashboard", middleware.AuthMiddleware(false), handlers.DashboardHandler())
+	g.GET("/sse/navbar", middleware.AuthMiddleware(true), handlers.SseNavbar(DB))
 }

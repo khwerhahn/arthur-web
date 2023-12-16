@@ -3,7 +3,7 @@ package views
 import (
 	"arthur-web/database"
 	"arthur-web/globals"
-	"arthur-web/models"
+	"arthur-web/model"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -63,7 +63,7 @@ func (v *ViewObj) UpdateViewObjSession(c *gin.Context) (*ViewObj, error) {
 
 	// get user data
 	if userID != 0 {
-		var user models.User
+		var user model.User
 		DB.Where("id = ?", userID).First(&user)
 		if user.Username == "" {
 			return v, nil

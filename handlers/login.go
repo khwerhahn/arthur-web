@@ -50,6 +50,17 @@ func LoginPostHandler() gin.HandlerFunc {
 			session.Set(globals.IsAdmin, userDB.IsAdmin)
 			session.Set(globals.UserID, userDB.ID)
 			session.Set(globals.ProfileImageUrl, userDB.ProfileImageUrl)
+			// extract user settings
+			userSettings, err := userDB.GetUserSettings()
+			if err != nil {
+				newViewObj := views.NewViewObj("Login", "/login")
+				newViewObj.AddError("form", "Something went wrong")
+				c.HTML(http.StatusBadRequest, "", views.Login(newViewObj))
+				return
+
+			}
+			session.Set(globals.UserSettingCurrency, userSettings.Currency)
+			session.Set(globals.UserSettingLanguage, userSettings.Language)
 			// cookie expires after 1 wminute
 			expirtationTime := time.Now().Add(10 * time.Minute)
 			session.Set(globals.ValidUntil, int(expirtationTime.Unix()))
