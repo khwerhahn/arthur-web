@@ -18,7 +18,7 @@ exclude_regex = [".*_templ.go"]
 # Ignore these filename extensions or directories.
 exclude_dir = ["tmp"]
 # Watch these directories if you specified.
-include_dir = ["components","services","database","views","assets","handlers","layouts","models","globals","middleware","auth","seed"]
+include_dir = ["components","services","database","views","assets","handlers","layouts","model","globals","middleware","auth","seed"]
 # Watch these files.
 include_file = []
 # Exclude files.

@@ -43,6 +43,8 @@ func main() {
 
 	gin.SetMode(ginMode)
 	router := gin.Default()
+
+	// set html render
 	router.HTMLRender = &TemplRender{}
 	var sessionSecret []byte
 	secretEnv := config.Config("SECRET")
@@ -52,6 +54,7 @@ func main() {
 		sessionSecret = []byte("secret")
 	}
 
+	// cookie
 	router.Use(sessions.Sessions(globals.CookieName, cookie.NewStore(sessionSecret)))
 
 	//////////////////////

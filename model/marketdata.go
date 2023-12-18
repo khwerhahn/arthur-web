@@ -71,7 +71,7 @@ func (M *MarketData) BeforeUpdate(tx *gorm.DB) (err error) {
 // get last availeble marketdata
 func (M *MarketData) GetLastAvailableMarketData(db *gorm.DB, symbol string, quoteDenomination string) (MarketData, error) {
 	var marketData MarketData
-	result := db.Where("symbol = ? AND quote_denomination = ? ", symbol, quoteDenomination).Last(&marketData)
+	result := db.Where("symbol = ? AND quote_denomination = ? ", symbol, quoteDenomination).Order("range_from desc").First(&marketData)
 	if result.Error != nil {
 		return MarketData{}, result.Error
 	}

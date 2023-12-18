@@ -66,10 +66,8 @@ func ConnectDB() {
 		log.Println("In Development Mode")
 		if doDropTables {
 			log.Println("Dropping all tabless")
-			err := DB.Migrator().DropTable(&model.UsersAccounts{}, &model.StakeKeyHistory{}, &model.Epoch{}, &model.MarketData{}, &model.Account{})
-			if err != nil {
-				panic(err)
-			}
+			// DB.Migrator().DropTable(&model.UsersAccounts{}, &model.StakeKeyHistory{}, &model.Epoch{}, &model.MarketData{}, &model.Account{})
+			// DB.Migrator().DropTable(&model.UsersAccounts{}, &model.Account{})
 		}
 		DB.AutoMigrate(&model.Epoch{}, &model.User{}, &model.Account{}, &model.StakeKeyHistory{}, &model.MarketData{}, &model.UsersAccounts{})
 		fmt.Println("Database Migrated")

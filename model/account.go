@@ -19,3 +19,12 @@ func (A *Account) GetAccountByStakeKey(db *gorm.DB, stakeKey string) error {
 	}
 	return nil
 }
+
+// save
+func (A *Account) SaveAccount(db *gorm.DB) (*Account, error) {
+	result := db.Create(&A)
+	if result.Error != nil {
+		return A, result.Error
+	}
+	return A, nil
+}

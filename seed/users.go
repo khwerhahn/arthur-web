@@ -77,30 +77,44 @@ var userAccounts = []UserAccountSeed{
 
 func SeedUserAccounts(DB *gorm.DB) {
 	fmt.Println("Seeding user accounts...")
-	// get users
-	var users []model.User
-	DB.Find(&users)
-	// get accounts
-	var accounts []model.Account
-	DB.Find(&accounts)
 	// loop through users and accounts
-	for i := range users {
-		for j := range accounts {
-			// check if user has account
-			var userAccount model.UsersAccounts
-			DB.Where("user_id = ? AND account_id = ?", users[i].ID, accounts[j].ID).First(&userAccount)
-			if userAccount.UserID == 0 {
-				// create user account
-				userAccountModel := model.UsersAccounts{}
-				userAccountModel.UserID = users[i].ID
-				userAccountModel.AccountID = accounts[j].ID
-				userAccountModel.Title = userAccounts[j].Title
-				_, err := userAccountModel.SaveUserAccount(DB)
-				if err != nil {
-					panic(err)
-				}
-			}
+	for j := range userAccounts {
+		// find the user
+		var user model.User
+		DB.Where("email = ?", userAccounts[j].Email).First(&user)
+		if user.Email == "" {
+			panic("User not found")
 		}
 
+		// check if account exists
+		var account model.Account
+		DB.Where("stake_key = ?", userAccounts[j].StakeKey).First(&account)
+		if account.StakeKey == "" {
+			// create account
+			accountModel := model.Account{}
+			accountModel.StakeKey = userAccounts[j].StakeKey
+			accountModel.Title = userAccounts[j].Title
+			_, err := accountModel.SaveAccount(DB)
+			if err != nil {
+				panic(err)
+			}
+			DB.Where("stake_key = ?", userAccounts[j].StakeKey).First(&account)
+		}
+
+		// check if user has UserAccounts
+		var userAccount model.UsersAccounts
+		DB.Debug().Where("user_id = ? AND account_id = ?", user.ID, account.ID).First(&userAccount)
+		if userAccount.UserID == 0 {
+			// create user account
+			userAccountModel := model.UsersAccounts{}
+			userAccountModel.UserID = user.ID
+			userAccountModel.AccountID = account.ID
+			userAccountModel.Title = userAccounts[j].Title
+			_, err := userAccountModel.SaveUserAccount(DB)
+			if err != nil {
+				panic(err)
+			}
+		}
 	}
+
 }
