@@ -16,3 +16,12 @@ func (u *UsersAccounts) SaveUserAccount(db *gorm.DB) (uint, error) {
 	}
 	return u.ID, nil
 }
+
+func (u *UsersAccounts) GetUserAccounts(db *gorm.DB, userID uint) ([]UsersAccounts, error) {
+	var userAccounts []UsersAccounts
+	result := db.Where("user_id = ?", userID).Find(&userAccounts)
+	if result.Error != nil {
+		return userAccounts, result.Error
+	}
+	return userAccounts, nil
+}

@@ -9,6 +9,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type Style struct {
+	StyleContainer []string
+}
+
 type SessionDataView struct {
 	IsAuthenticated   bool
 	UserID            uint
@@ -24,9 +28,10 @@ type ViewObj struct {
 	Link    string
 	Errors  map[string]string
 	Session *SessionDataView
+	Style   *Style
 }
 
-func NewViewObj(title string, link string) *ViewObj {
+func NewViewObj(title string, link string, style Style) *ViewObj {
 	return &ViewObj{
 		Title:  title,
 		Link:   link,
@@ -40,6 +45,7 @@ func NewViewObj(title string, link string) *ViewObj {
 			IsAdmin:           false,
 			ProfilePictureUrl: "",
 		},
+		Style: &style,
 	}
 }
 

@@ -13,7 +13,10 @@ import (
 
 func LoginHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.HTML(http.StatusOK, "", views.Login(views.NewViewObj("Login", "/login")))
+		loginStyle := views.Style{
+			StyleContainer: []string{"items-center", "justify-center", "flex-1"},
+		}
+		c.HTML(http.StatusOK, "", views.Login(views.NewViewObj("Login", "/login", loginStyle)))
 	}
 }
 
@@ -25,7 +28,7 @@ func LoginPostHandler() gin.HandlerFunc {
 		// validate user and password
 		// if empty return error
 		if user == "" || password == "" {
-			newViewObj := views.NewViewObj("Login", "/login")
+			newViewObj := views.NewViewObj("Login", "/login", views.Style{})
 			newViewObj.AddError("form", "User or password cannot be empty")
 			newViewObj.AddError("user", "User can't be empty")
 			newViewObj.AddError("password", "Password can't be empty")
@@ -36,7 +39,7 @@ func LoginPostHandler() gin.HandlerFunc {
 		// authenticate user
 		userDB, err := auth.AuthenticateUser(user, password)
 		if err != nil {
-			newViewObj := views.NewViewObj("Login", "/login")
+			newViewObj := views.NewViewObj("Login", "/login", views.Style{})
 			newViewObj.AddError("form", "User or password incorrect")
 			newViewObj.AddError("user", "User or password incorrect")
 			newViewObj.AddError("password", "User or password incorrect")
@@ -53,7 +56,7 @@ func LoginPostHandler() gin.HandlerFunc {
 			// extract user settings
 			userSettings, err := userDB.GetUserSettings()
 			if err != nil {
-				newViewObj := views.NewViewObj("Login", "/login")
+				newViewObj := views.NewViewObj("Login", "/login", views.Style{})
 				newViewObj.AddError("form", "Something went wrong")
 				c.HTML(http.StatusBadRequest, "", views.Login(newViewObj))
 				return
@@ -61,14 +64,15 @@ func LoginPostHandler() gin.HandlerFunc {
 			}
 			session.Set(globals.UserSettingCurrency, userSettings.Currency)
 			session.Set(globals.UserSettingLanguage, userSettings.Language)
-			// cookie expires after 1 wminute
-			expirtationTime := time.Now().Add(10 * time.Minute)
+			// cookie expires in minutes between now and midnight
+			diffNowToMidnight := time.Until(time.Now().AddDate(0, 0, 1).Truncate(24 * time.Hour))
+			expirtationTime := time.Now().Add(diffNowToMidnight * time.Minute)
 			session.Set(globals.ValidUntil, int(expirtationTime.Unix()))
 			session.Save()
 			c.Redirect(http.StatusFound, "/dashboard")
 			return
 		} else {
-			newViewObj := views.NewViewObj("Login", "/login")
+			newViewObj := views.NewViewObj("Login", "/login", views.Style{})
 			// unknown error
 			newViewObj.AddError("form", "Something went wrong")
 			c.HTML(http.StatusBadRequest, "", views.Login(newViewObj))

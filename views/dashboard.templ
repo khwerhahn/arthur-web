@@ -1,11 +1,69 @@
 package views
 
-templ DashboardPage(viewObj *ViewObj) {
+type DashboardWallet struct {
+	ID         uint   `json:"id"`
+	Title      string `json:"title"`
+	ADAAmount  int64  `json:"ada_amount"`
+	FiatAmount int64  `json:"fiat_amount"`
+}
+
+type DashboardData struct {
+	Wallets []DashboardWallet `json:"wallets"`
+}
+
+templ DashboardPage(viewObj *ViewObj, data DashboardData) {
 	@DefaultLayout(viewObj) {
-		<div class="flex flex-col">
-            <h1>Dashboard</h1>
-			<h2>Welcome { viewObj.Session.FirstName },</h2>
-			<p>This is the authenticated dashboard page</p>
+		// if error
+		if len(viewObj.Errors) > 0 && viewObj.Errors["top"] != "" {
+			<div class="mt-6 text-center text-red-500">
+				<p class="text-sm font-semibold leading-5">{ viewObj.Errors["form"] }</p>
+			</div>
+		}
+		<div class="flex flex-col mb-4 md:mb-6">
+			@H1Component([]string{}) {
+				Dashboard
+			}
+		</div>
+		<div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7">
+			<div class="rounded-sm border bg-white px-6 py-10 shadow-sm">
+				<div class="flex flex-col">
+					<div class="grid grid-cols-2 gap-1">
+						<div>
+							@H3Component([]string{""}) {
+								₳ 5
+							}
+						</div>
+						<div>
+							@H3Component([]string{""}) {
+								$3.456K
+							}
+						</div>
+					</div>
+					<div class="mt-2">
+						<span class="text-md font-medium">Total Value</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="flex flex-col mt-8 mb-4 md:mb-6 md:mt-10">
+			@H2Component([]string{}) {
+				Wallets
+			}
+		</div>
+		<div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7">
+			for _, wallet := range data.Wallets {
+				<div class="rounded-sm border bg-white px-6 py-10 shadow-sm">
+					<div class="flex flex-col">
+						<div class="grid grid-cols-2 gap-1">
+							<div>
+								@H3Component([]string{""}) {
+									{ wallet.Title }
+								}
+							</div>
+						</div>
+					</div>
+				</div>
+			}
 		</div>
 	}
 }

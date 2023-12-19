@@ -29,7 +29,7 @@ func Login(viewObj *ViewObj) templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex items-center justify-center flex-1 w-[90%] md:w-[75%] lg:w-[50%] self-center\"><div class=\"flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 border shadow-md rounded-md\"><div class=\"sm:mx-auto sm:w-full sm:max-w-sm\"><h2 class=\"text-center text-2xl font-bold leading-9 tracking-tight text-gray-900\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex items-center justify-center  w-[90%] md:w-[75%] lg:w-[50%] self-center\"><div class=\"flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 border shadow-md rounded-md bg-white\"><div class=\"sm:mx-auto sm:w-full sm:max-w-sm\"><h2 class=\"text-center text-2xl font-bold leading-9 tracking-tight text-gray-900\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

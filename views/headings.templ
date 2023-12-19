@@ -1,0 +1,59 @@
+package views
+
+import (
+	"strings"
+)
+
+// tailwind h1 component
+
+templ H1Component(style []string) {
+	<h1
+ 		if len(style) > 0 {
+			class={ strings.Join(append(style, []string{"text-3xl", "font-bold", "text-gray-900"}...), " ") }
+		} else {
+			class="text-3xl font-bold text-gray-900"
+		}
+	>
+		{ children... }
+	</h1>
+}
+
+// tailwind h2 component
+
+templ H2Component(style []string) {
+	<h2
+ 		if len(style) > 0 {
+			class={ strings.Join(append(style, []string{"text-2xl", "font-bold", "text-gray-900"}...), " ") }
+		} else {
+			class="text-2xl font-bold text-gray-900"
+		}
+	>
+		{ children... }
+	</h2>
+}
+
+// tailwind h3 component
+templ H3Component(style []string) {
+    <h3
+ 		if len(style) > 0 {
+            class={ strings.Join(append(style, []string{"text-xl", "font-bold", "text-gray-900"}...), " ") }
+        } else {
+            class="text-xl font-bold text-gray-900"
+        }
+    >
+        { children... }
+    </h3>
+}
+
+// tailwind h4 component
+templ H4Component(style []string) {
+    <h4
+ 		if len(style) > 0 {
+            class={ strings.Join(append(style, []string{"text-lg", "font-bold", "text-gray-900"}...), " ") }
+        } else {
+            class="text-lg font-bold text-gray-900"
+        }
+    >
+        { children... }
+    </h4>
+}

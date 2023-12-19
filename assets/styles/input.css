@@ -3,8 +3,17 @@
 @tailwind utilities;
 
 .main-container-content {
-    background-color: rgba(255, 255, 255, 1);
+    background-color: rgb(241, 245, 249, 1);
     transition: 280ms all 120ms ease-out;
+}
+
+.bg-background {
+    --tw-bg-opacity: 1;
+    background-color: rgba(241, 245, 249, 1, var(--tw-bg-opacity));
+}
+
+.bg-navigation {
+    --tw-drop-shadow: drop-shadow(0px 1px 0px #E2E8F0);
 }
 
 input {

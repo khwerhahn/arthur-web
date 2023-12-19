@@ -28,3 +28,13 @@ func (A *Account) SaveAccount(db *gorm.DB) (*Account, error) {
 	}
 	return A, nil
 }
+
+// get account by id
+func (A *Account) GetAccountByID(db *gorm.DB, id uint) (Account, error) {
+	result := db.Where("id = ?", id).Find(&A)
+	if result.Error != nil {
+		return *A, result.Error
+	}
+	return *A, nil
+}
+

@@ -13,7 +13,7 @@ import (
 func IndexHandler() gin.HandlerFunc {
 	// create a new ViewObj
 	return func(c *gin.Context) {
-		indexViewObj := views.NewViewObj("Index", "/")
+		indexViewObj := views.NewViewObj("Index", "/", views.Style{})
 		indexViewObj, err := indexViewObj.UpdateViewObjSession(c)
 		if err != nil {
 			c.HTML(http.StatusBadRequest, "", views.Login(indexViewObj))

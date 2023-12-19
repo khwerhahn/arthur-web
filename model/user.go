@@ -81,3 +81,12 @@ func (u *User) SetUserSettings(userSettings UserSettings) error {
 	u.UserSettings = string(userSettingsJson)
 	return nil
 }
+
+// get user by id and return user
+func (u *User) GetUserByID(db *gorm.DB, id uint) (*User, error) {
+	result := db.Where("id = ?", id).First(&u)
+	if result.Error != nil {
+		return u, result.Error
+	}
+	return u, nil
+}
