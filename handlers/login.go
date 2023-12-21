@@ -5,6 +5,7 @@ import (
 	"arthur-web/globals"
 	"arthur-web/views"
 	"net/http"
+	"net/url"
 	"time"
 
 	"github.com/gin-contrib/sessions"
@@ -16,7 +17,7 @@ func LoginHandler() gin.HandlerFunc {
 		loginStyle := views.Style{
 			StyleContainer: []string{"items-center", "justify-center", "flex-1"},
 		}
-		c.HTML(http.StatusOK, "", views.Login(views.NewViewObj("Login", "/login", loginStyle)))
+		c.HTML(http.StatusOK, "", views.Login(views.NewViewObj("Login", "/login", loginStyle, views.HTMXsse{})))
 	}
 }
 
@@ -28,7 +29,7 @@ func LoginPostHandler() gin.HandlerFunc {
 		// validate user and password
 		// if empty return error
 		if user == "" || password == "" {
-			newViewObj := views.NewViewObj("Login", "/login", views.Style{})
+			newViewObj := views.NewViewObj("Login", "/login", views.Style{}, views.HTMXsse{})
 			newViewObj.AddError("form", "User or password cannot be empty")
 			newViewObj.AddError("user", "User can't be empty")
 			newViewObj.AddError("password", "Password can't be empty")
@@ -39,7 +40,7 @@ func LoginPostHandler() gin.HandlerFunc {
 		// authenticate user
 		userDB, err := auth.AuthenticateUser(user, password)
 		if err != nil {
-			newViewObj := views.NewViewObj("Login", "/login", views.Style{})
+			newViewObj := views.NewViewObj("Login", "/login", views.Style{}, views.HTMXsse{})
 			newViewObj.AddError("form", "User or password incorrect")
 			newViewObj.AddError("user", "User or password incorrect")
 			newViewObj.AddError("password", "User or password incorrect")
@@ -56,7 +57,7 @@ func LoginPostHandler() gin.HandlerFunc {
 			// extract user settings
 			userSettings, err := userDB.GetUserSettings()
 			if err != nil {
-				newViewObj := views.NewViewObj("Login", "/login", views.Style{})
+				newViewObj := views.NewViewObj("Login", "/login", views.Style{}, views.HTMXsse{})
 				newViewObj.AddError("form", "Something went wrong")
 				c.HTML(http.StatusBadRequest, "", views.Login(newViewObj))
 				return
@@ -69,10 +70,11 @@ func LoginPostHandler() gin.HandlerFunc {
 			expirtationTime := time.Now().Add(diffNowToMidnight * time.Minute)
 			session.Set(globals.ValidUntil, int(expirtationTime.Unix()))
 			session.Save()
-			c.Redirect(http.StatusFound, "/dashboard")
+			dashboardLocation := url.URL{Path: "/dashboard"}
+			c.Redirect(http.StatusFound, dashboardLocation.RequestURI())
 			return
 		} else {
-			newViewObj := views.NewViewObj("Login", "/login", views.Style{})
+			newViewObj := views.NewViewObj("Login", "/login", views.Style{}, views.HTMXsse{})
 			// unknown error
 			newViewObj.AddError("form", "Something went wrong")
 			c.HTML(http.StatusBadRequest, "", views.Login(newViewObj))

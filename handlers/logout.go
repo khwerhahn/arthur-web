@@ -16,7 +16,7 @@ func LogoutHandler() gin.HandlerFunc {
 		session.Clear()
 		session.Save()
 
-		logoutViewObj := views.NewViewObj("Logout", "/logout", views.Style{})
+		logoutViewObj := views.NewViewObj("Logout", "/logout", views.Style{}, views.HTMXsse{})
 		logoutViewObj, err := logoutViewObj.UpdateViewObjSession(c)
 		if err != nil {
 			c.HTML(http.StatusBadRequest, "", views.Logout(logoutViewObj))

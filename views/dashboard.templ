@@ -1,10 +1,11 @@
 package views
 
 type DashboardWallet struct {
-	ID         uint   `json:"id"`
-	Title      string `json:"title"`
-	ADAAmount  int64  `json:"ada_amount"`
-	FiatAmount int64  `json:"fiat_amount"`
+	ID           string `json:"id"`
+	Title        string `json:"title"`
+	AdaAmount    string `json:"ada_amount"`
+	FiatAmount   string `json:"fiat_amount"`
+	UserCurrency string `json:"user_currency"`
 }
 
 type DashboardData struct {
@@ -16,7 +17,7 @@ templ DashboardPage(viewObj *ViewObj, data DashboardData) {
 		// if error
 		if len(viewObj.Errors) > 0 && viewObj.Errors["top"] != "" {
 			<div class="mt-6 text-center text-red-500">
-				<p class="text-sm font-semibold leading-5">{ viewObj.Errors["form"] }</p>
+				<p class="text-sm font-semibold leading-5">{ viewObj.Errors["top"] }</p>
 			</div>
 		}
 		<div class="flex flex-col mb-4 md:mb-6">
@@ -25,7 +26,7 @@ templ DashboardPage(viewObj *ViewObj, data DashboardData) {
 			}
 		</div>
 		<div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7">
-			<div class="rounded-sm border bg-white px-6 py-10 shadow-sm">
+            <div class="rounded-sm border bg-white px-6 py-10 shadow-sm" >
 				<div class="flex flex-col">
 					<div class="grid grid-cols-2 gap-1">
 						<div>
@@ -50,16 +51,18 @@ templ DashboardPage(viewObj *ViewObj, data DashboardData) {
 				Wallets
 			}
 		</div>
-		<div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7">
+		<div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7">
 			for _, wallet := range data.Wallets {
-				<div class="rounded-sm border bg-white px-6 py-10 shadow-sm">
+				<div class="rounded-sm border bg-white px-5 py-5 shadow-sm" hx-on:click={ goToUrl(wallet.ID)}>
 					<div class="flex flex-col">
-						<div class="grid grid-cols-2 gap-1">
-							<div>
-								@H3Component([]string{""}) {
-									{ wallet.Title }
-								}
-							</div>
+						<div class="">
+							@H4Component([]string{""}) {
+								{ wallet.Title }
+							}
+						</div>
+						<div class="mt-2">
+							<div>₳: { wallet.AdaAmount }</div>
+                            <div>{wallet.UserCurrency} { wallet.FiatAmount }</div>
 						</div>
 					</div>
 				</div>

@@ -6,7 +6,7 @@ import (
 
 type Account struct {
 	gorm.Model
-	StakeKey        string             `gorm:"not null" json:"stakeKey"`
+	StakeKey        string             `gorm:"not null;unique" json:"stakeKey"`
 	Title           string             `json:"title"`
 	Users           []*User            `gorm:"many2many:users_accounts;"`
 	StakeKeyHistory []*StakeKeyHistory `gorm:"foreignKey:AccountID;references:ID"`

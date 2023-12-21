@@ -1,0 +1,83 @@
+package views
+
+type WalletViewData struct {
+	WalletID string
+}
+
+templ WalletView(viewObj *ViewObj, data WalletViewData) {
+	@DefaultLayout(viewObj) {
+		<div id="sse"></div>
+	}
+}
+
+type WalletInsideViewData struct {
+	WalletID    string
+	WalletTitle string
+}
+
+templ WalletInsideHeaderComponent(walletID string, walletTitle string) {
+	<div class="flex flex-col mb-4 md:mb-6">
+		@H1Component([]string{}) {
+			if walletTitle != "" {
+				walletTitle
+			} else {
+				Wallet
+			}
+		}
+		<span class="text-gray-500 text-sm mt-4">{ walletID }</span>
+	</div>
+	<div>
+		<ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 ">
+			<li class="me-2">
+				<a href="#" aria-current="page" class="inline-block p-4 text-blue-600 bg-gray-300 rounded-t-lg active">Positions</a>
+			</li>
+			<li class="me-2">
+				<a href="#" class="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50">Transactions</a>
+			</li>
+			<li class="me-2">
+				<a href="#" class="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50">Staking</a>
+			</li>
+		</ul>
+	</div>
+}
+
+templ WalletInsideView(data WalletInsideViewData) {
+	@WalletInsideHeaderComponent(data.WalletID, data.WalletTitle)
+	<div class="flex ">
+		<div class="">
+			<div class="rounded-sm border bg-white px-5 py-5 shadow-sm">
+				<div class="flex flex-col">
+					<div class="">
+						@H4Component([]string{""}) {
+							₳: 10000.0000
+						}
+					</div>
+                    <div class="">
+						@H4Component([]string{""}) {
+							€: 10000.00
+						}
+					</div>
+					<span class="text-gray-500 text-sm mt-4">Total Balance</span>
+				</div>
+			</div>
+			<div class="">
+				<div class="rounded-sm border bg-white px-5 py-5 shadow-sm">
+					<div class="flex flex-col">
+						<div class="">
+							@H4Component([]string{""}) {
+								₳: 10000.0000
+							}
+                            @H4Component([]string{""}) {
+								€: 10000.00
+							}
+						</div>
+						<span class="text-gray-500 text-sm mt-4">Total Balance</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="flex flex-1 w-full">
+			<div class="rounded-sm border bg-white px-5 py-5 shadow-sm">chart</div>
+		</div>
+	</div>
+}

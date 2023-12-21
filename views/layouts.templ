@@ -14,10 +14,15 @@ templ DefaultLayout(viewObj *ViewObj) {
 					@NavigationComponent(viewObj)
 					<div
  						if len(viewObj.Style.StyleContainer) > 0 {
-							class={ strings.Join(append(viewObj.Style.StyleContainer, []string{"flex", "flex-col", "mx-auto", "max-w-7xl", "w-full", "pt-5", "px-2", "md:px-2","lg:px-0"}...), " ") }
+							class={ strings.Join(append(viewObj.Style.StyleContainer, []string{"flex", "flex-col", "mx-auto", "max-w-7xl", "w-full", "pt-5", "px-2", "sm:px-2", "md:px-2","lg:px-2"}...), " ") }
 						} else {
-							class="flex flex-col mx-auto max-w-7xl w-full pt-5 px-2 md:px-2 lg:px-0"
+							class="flex flex-col mx-auto max-w-7xl w-full pt-5 px-2 md:px-2 lg:px-2 sm:px-2"
 						}
+                        if viewObj.HTMXsse.Url != "" {
+                            hx-ext="sse"
+                            sse-connect={ viewObj.HTMXsse.Url }
+                            sse-swap="message"
+                        }
 					>
 						{ children... }
 					</div>

@@ -12,6 +12,25 @@ import (
 	"gorm.io/gorm"
 )
 
+func SseNavbarContents(DB *gorm.DB, currencyToUse string) string {
+	returnString := ""
+	// get last available epoch
+	var marketData model.MarketData
+	lastMarketData, err := marketData.GetLastAvailableMarketData(DB, "ada", currencyToUse)
+	if err != nil {
+		returnString = "error"
+	} else {
+		// return
+		// Close string + currneycurrencyToUse string
+		currSymbol := "$"
+		if currencyToUse == "eur" {
+			currSymbol = "€"
+		}
+		returnString = strconv.FormatFloat(lastMarketData.Close, 'f', 2, 64) + " " + currSymbol
+	}
+	return returnString
+}
+
 func SseNavbar(DB *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		currencyToUse := "usd"
@@ -22,30 +41,32 @@ func SseNavbar(DB *gorm.DB) gin.HandlerFunc {
 		if userCurrency != nil {
 			currencyToUse = userCurrency.(string)
 		}
+
 		streamChan := make(chan string)
+
+		// ticker
+		quit := make(chan struct{})
+		ticker := time.NewTicker(time.Second * 10)
+		// just the inital chan 1 microsecond
+		tickerOnceOnly := time.NewTicker(time.Microsecond * 1)
+
 		go func() {
 			for {
-				returnString := ""
-				// get last available epoch
-				var marketData model.MarketData
-				lastMarketData, err := marketData.GetLastAvailableMarketData(DB, "ada", currencyToUse)
-				if err != nil {
-					returnString = "error"
-				} else {
-					// return
-					// Close string + currneycurrencyToUse string
-					currSymbol := "$"
-					if currencyToUse == "eur" {
-						currSymbol = "€"
-					}
-					returnString = strconv.FormatFloat(lastMarketData.Close, 'f', 2, 64) + " " + currSymbol
+				select {
+				case <-ticker.C:
+					returnString := SseNavbarContents(DB, currencyToUse)
+					streamChan <- returnString
+				case <-tickerOnceOnly.C:
+					returnString := SseNavbarContents(DB, currencyToUse)
+					streamChan <- returnString
+					tickerOnceOnly.Stop()
+				case <-quit:
+					ticker.Stop()
+					return
 				}
-
-				// send to channel
-				streamChan <- returnString
-				time.Sleep(time.Second * 10)
 			}
 		}()
+
 		c.Stream(func(w io.Writer) bool {
 			// Stream message to client from message channel
 			if msg, ok := <-streamChan; ok {

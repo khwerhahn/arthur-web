@@ -23,15 +23,21 @@ type SessionDataView struct {
 	ProfilePictureUrl string
 }
 
+type HTMXsse struct {
+	Url  string
+	Swap string
+}
+
 type ViewObj struct {
 	Title   string
 	Link    string
 	Errors  map[string]string
 	Session *SessionDataView
 	Style   *Style
+	HTMXsse *HTMXsse
 }
 
-func NewViewObj(title string, link string, style Style) *ViewObj {
+func NewViewObj(title string, link string, style Style, sse HTMXsse) *ViewObj {
 	return &ViewObj{
 		Title:  title,
 		Link:   link,
@@ -45,7 +51,8 @@ func NewViewObj(title string, link string, style Style) *ViewObj {
 			IsAdmin:           false,
 			ProfilePictureUrl: "",
 		},
-		Style: &style,
+		Style:   &style,
+		HTMXsse: &sse,
 	}
 }
 

@@ -1,0 +1,123 @@
+package views
+
+type WalletViewData struct {
+	WalletID string
+}
+
+templ WalletView(viewObj *ViewObj, data WalletViewData) {
+	@DefaultLayout(viewObj) {
+		<div id="sse"></div>
+	}
+}
+
+templ WalletInsideHeaderComponent(walletID string, walletTitle string, activeUrl string) {
+	<div class="flex flex-col mb-4 md:mb-6">
+		@H1Component([]string{}) {
+			if walletTitle != "" {
+				walletTitle
+			} else {
+				Wallet
+			}
+		}
+		<span class="text-gray-500 text-sm mt-4">{ walletID }</span>
+	</div>
+	<div>
+		<ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-20">
+			<li class="me-2">
+				<a
+ 					href={ templ.SafeURL("/wallet/" + walletID) }
+ 					aria-current="page"
+                    if activeUrl == "/positions" || activeUrl == "/" {
+						class="inline-block p-4 text-blue-600 bg-gray-300 rounded-t-lg"
+					} else {
+						class="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50"
+					}
+				>Positions</a>
+			</li>
+			<li class="me-2">
+				<a
+ 					href={ templ.SafeURL("/wallet/" + walletID + "/transactions") }
+ 					if activeUrl == "/transactions" {
+						class="inline-block p-4 text-blue-600 bg-gray-300 rounded-t-lg"
+					} else {
+						class="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50"
+					}
+				>Transactions</a>
+			</li>
+			<li class="me-2">
+				<a
+ 					href={ templ.SafeURL("/wallet/" + walletID + "/staking") }
+ 					if activeUrl == "/staking" {
+						class="inline-block p-4 text-blue-600 bg-gray-300 rounded-t-lg"
+					} else {
+						class="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50"
+					}
+				>Staking</a>
+			</li>
+		</ul>
+	</div>
+}
+
+type WalletInsideViewData struct {
+	WalletID    string
+	WalletTitle string
+	ActiveUrl   string
+}
+
+templ WalletInsideView(data WalletInsideViewData) {
+	@WalletInsideHeaderComponent(data.WalletID, data.WalletTitle, data.ActiveUrl)
+	<div class="flex flex-row flex-1 w-full">
+		<div class="">
+			<div class="rounded-sm border bg-white px-5 py-5 shadow-sm">
+				<div class="flex flex-col">
+					<div class="">
+						@H4Component([]string{""}) {
+							₳: 10000.0000
+						}
+					</div>
+					<div class="">
+						@H4Component([]string{""}) {
+							€: 10000.00
+						}
+					</div>
+					<span class="text-gray-500 text-sm mt-4">Total Balance</span>
+				</div>
+			</div>
+			<div class="">
+				<div class="rounded-sm border bg-white px-5 py-5 shadow-sm ">
+					<div class="flex flex-col">
+						<div class="">
+							@H4Component([]string{""}) {
+								₳: 10000.0000
+							}
+							@H4Component([]string{""}) {
+								€: 10000.00
+							}
+						</div>
+						<span class="text-gray-500 text-sm mt-4">Total Balance</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="flex flex-1">
+			<div class="rounded-sm border bg-white px-5 py-5 shadow-sm w-full">chart</div>
+		</div>
+	</div>
+	@H3Component([]string{"mt-4"}) {
+		Positions
+	}
+}
+
+templ WalletInsideViewTransactions(data WalletInsideViewData) {
+	@WalletInsideHeaderComponent(data.WalletID, data.WalletTitle, data.ActiveUrl)
+	@H3Component([]string{"mt-4"}) {
+		Transactions
+	}
+}
+
+templ WalletInsideViewStaking(data WalletInsideViewData) {
+    @WalletInsideHeaderComponent(data.WalletID, data.WalletTitle, data.ActiveUrl)
+    @H3Component([]string{"mt-4"}) {
+        Staking
+    }
+}

@@ -140,7 +140,7 @@ func NavigationComponent(viewObj *ViewObj) templ.Component {
 			templ_7745c5c3_Var9 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"sticky top-0 z-50 py-2.5 bg-white border bg-navigation px-2\"><div class=\"flex flex-row justify-between w-full mx-auto max-w-7xl\"><div class=\"flex flex-1\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"sticky top-0 z-50 py-2.5 bg-white border bg-navigation \"><div class=\"flex flex-row justify-between w-full mx-auto max-w-7xl px-2 sm:px-2 md:px-2 lg:px-2\"><div class=\"flex flex-1\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -205,11 +205,11 @@ func NavigationComponent(viewObj *ViewObj) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"text-gray-600\"><a href=\"/link\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"text-gray-600\"><a href=\"/wallets\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Var15 := `Link`
+			templ_7745c5c3_Var15 := `Wallets`
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var15)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err

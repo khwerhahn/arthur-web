@@ -39,10 +39,10 @@ templ HeaderComponent(title string) {
 
 templ NavigationComponent(viewObj *ViewObj) {
 	<div
- 		class="sticky top-0 z-50 py-2.5 bg-white border bg-navigation px-2"
+ 		class="sticky top-0 z-50 py-2.5 bg-white border bg-navigation "
 	>
 		<div
- 			class="flex flex-row justify-between w-full mx-auto max-w-7xl"
+ 			class="flex flex-row justify-between w-full mx-auto max-w-7xl px-2 sm:px-2 md:px-2 lg:px-2"
 		>
 			<div class="flex flex-1">
 				if viewObj.Session.IsAuthenticated {
@@ -69,7 +69,7 @@ templ NavigationComponent(viewObj *ViewObj) {
 						</div>
 						<div class="px-2">|</div>
 						<div class="text-gray-600">
-							<a href="/link">Link</a>
+							<a href="/wallets">Wallets</a>
 						</div>
 					}
 				</div>

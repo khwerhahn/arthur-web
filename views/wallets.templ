@@ -1,0 +1,47 @@
+package views
+
+type WalletsWallet struct {
+	ID           string `json:"id"`
+	Title        string `json:"title"`
+	AdaAmount    string `json:"ada_amount"`
+	FiatAmount   string `json:"fiat_amount"`
+	UserCurrency string `json:"user_currency"`
+}
+
+type WalletsData struct {
+	Wallets []WalletsWallet
+}
+
+
+templ WalletsView(viewObj *ViewObj, data WalletsData) {
+	@DefaultLayout(viewObj) {
+		// if error
+		if len(viewObj.Errors) > 0 && viewObj.Errors["top"] != "" {
+			<div class="mt-6 text-center text-red-500">
+				<p class="text-sm font-semibold leading-5">{ viewObj.Errors["top"] }</p>
+			</div>
+		}
+		<div class="flex flex-col mb-4 md:mb-6">
+			@H1Component([]string{}) {
+				Wallets
+			}
+		</div>
+		<div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7">
+			for _, wallet := range data.Wallets {
+				<div class="rounded-sm border bg-white px-5 py-5 shadow-sm" hx-on:click={ goToUrl(wallet.ID) }>
+					<div class="flex flex-col">
+						<div class="">
+							@H4Component([]string{""}) {
+								{ wallet.Title }
+							}
+						</div>
+						<div class="mt-2">
+							<div>₳: { wallet.AdaAmount }</div>
+							<div>{ wallet.UserCurrency } { wallet.FiatAmount }</div>
+						</div>
+					</div>
+				</div>
+			}
+		</div>
+	}
+}

@@ -4,6 +4,7 @@ import (
 	"arthur-web/globals"
 	"fmt"
 	"net/http"
+	"net/url"
 	"time"
 
 	"github.com/gin-contrib/sessions"
@@ -12,6 +13,7 @@ import (
 
 func AuthMiddleware(sse bool) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		redirectLogin := url.URL{Path: "/login"}
 		// get cookie details
 		session := sessions.Default(c)
 		isAuthenticated := session.Get(globals.IsAuthenticated)
@@ -27,7 +29,7 @@ func AuthMiddleware(sse bool) gin.HandlerFunc {
 		if !isAuthenticated.(bool) {
 			fmt.Println("not authenticated")
 			// forward to login
-			c.Redirect(http.StatusFound, "/login")
+			c.Redirect(http.StatusFound, redirectLogin.RequestURI())
 			return
 		}
 		// parse validUntil as unix
@@ -37,7 +39,7 @@ func AuthMiddleware(sse bool) gin.HandlerFunc {
 		if unixNow > int64(validUntilParsed) {
 			fmt.Println("cookie expired")
 			// forward to login
-			c.Redirect(http.StatusFound, "/login")
+			c.Redirect(http.StatusFound, redirectLogin.RequestURI())
 			return
 		}
 

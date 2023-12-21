@@ -43,7 +43,7 @@ func DefaultLayout(viewObj *ViewObj) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var2 = []any{strings.Join(append(viewObj.Style.StyleContainer, []string{"flex", "flex-col", "mx-auto", "max-w-7xl", "w-full", "pt-5", "px-2", "md:px-2", "lg:px-0"}...), " ")}
+		var templ_7745c5c3_Var2 = []any{strings.Join(append(viewObj.Style.StyleContainer, []string{"flex", "flex-col", "mx-auto", "max-w-7xl", "w-full", "pt-5", "px-2", "sm:px-2", "md:px-2", "lg:px-2"}...), " ")}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -66,7 +66,21 @@ func DefaultLayout(viewObj *ViewObj) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"flex flex-col mx-auto max-w-7xl w-full pt-5 px-2 md:px-2 lg:px-0\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"flex flex-col mx-auto max-w-7xl w-full pt-5 px-2 md:px-2 lg:px-2 sm:px-2\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		if viewObj.HTMXsse.Url != "" {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" hx-ext=\"sse\" sse-connect=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(viewObj.HTMXsse.Url))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" sse-swap=\"message\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
