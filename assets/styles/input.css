@@ -20,6 +20,10 @@ input {
     padding-left: 4px;
 }
 
+.mousehover {
+    cursor: pointer;
+}
+
 /* //////////////////////////////////// */
 /*  Menu & Navigation */
 /* round image with border with picture cut of */

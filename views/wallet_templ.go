@@ -126,7 +126,7 @@ func WalletInsideHeaderComponent(walletID string, walletTitle string, activeUrl 
 				return templ_7745c5c3_Err
 			}
 		} else {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 mousehover\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -159,7 +159,7 @@ func WalletInsideHeaderComponent(walletID string, walletTitle string, activeUrl 
 				return templ_7745c5c3_Err
 			}
 		} else {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 mousehover\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -192,7 +192,7 @@ func WalletInsideHeaderComponent(walletID string, walletTitle string, activeUrl 
 				return templ_7745c5c3_Err
 			}
 		} else {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 mousehover\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
