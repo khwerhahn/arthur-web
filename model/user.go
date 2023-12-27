@@ -25,8 +25,8 @@ type User struct {
 	LastName        string     `gorm:"not null;size:50;" validate:"required,min=3,max=200" json:"last_name"`
 	IsAdmin         bool       `gorm:"default:false" json:"is_admin"`
 	ProfileImageUrl string     `gorm:"default:'https://i.pravatar.cc/100?img=15'" json:"image_url"`
-	UserSettings string     `gorm:"not null;default: '{\"currency\": \"usd\", \"language\": \"en\"}'" json:"userSettings"`
-	Accounts     []*Account `gorm:"many2many:users_accounts;"`
+	UserSettings    string     `gorm:"not null;default: '{\"currency\": \"usd\", \"language\": \"en\"}'" json:"userSettings"`
+	Accounts        []*Account `gorm:"many2many:user_accounts;"`
 	CreatedAt       *time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt       *time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 }

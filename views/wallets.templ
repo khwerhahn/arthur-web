@@ -28,7 +28,7 @@ templ WalletsView(viewObj *ViewObj, data WalletsData) {
 		</div>
 		<div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7">
 			for _, wallet := range data.Wallets {
-				<div class="rounded-sm border bg-white px-5 py-5 shadow-sm mousehover" hx-on:click={ goToUrl(wallet.ID) }>
+				<div class="rounded-sm border bg-white px-5 py-5 shadow-sm mousehover hover:border-primary" hx-on:click={ goToUrl(wallet.ID) }>
 					<div class="flex flex-col">
 						<div class="">
 							@H4Component([]string{""}) {

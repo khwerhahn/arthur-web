@@ -102,11 +102,11 @@ func SeedUserAccounts(DB *gorm.DB) {
 		}
 
 		// check if user has UserAccounts
-		var userAccount model.UsersAccounts
+		var userAccount model.UserAccounts
 		DB.Debug().Where("user_id = ? AND account_id = ?", user.ID, account.ID).First(&userAccount)
 		if userAccount.UserID == 0 {
 			// create user account
-			userAccountModel := model.UsersAccounts{}
+			userAccountModel := model.UserAccounts{}
 			userAccountModel.UserID = user.ID
 			userAccountModel.AccountID = account.ID
 			userAccountModel.Title = userAccounts[j].Title

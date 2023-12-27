@@ -57,19 +57,30 @@ func ConnectDB() {
 	}
 
 	fmt.Println("Connection Opened to Database")
-	// drop all tables if env is development
 
 	// execute the uuid-ossp extension
 	DB.Exec("CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\";")
+
+	// drop all tables if env is development
 	if env == "dev" {
 		doDropTables := false
 		log.Println("In Development Mode")
 		if doDropTables {
-			log.Println("Dropping all tabless")
+			log.Println("Dropping tables:")
+			fmt.Println("User Accounts, Users, Accounts")
+			DB.Migrator().DropTable(&model.UserAccounts{}, &model.User{}, &model.Account{})
 			// DB.Migrator().DropTable(&model.UsersAccounts{}, &model.StakeKeyHistory{}, &model.Epoch{}, &model.MarketData{}, &model.Account{})
-			// DB.Migrator().DropTable(&model.UsersAccounts{}, &model.Account{})
 		}
-		DB.AutoMigrate(&model.Epoch{}, &model.User{}, &model.Account{}, &model.StakeKeyHistory{}, &model.MarketData{}, &model.UsersAccounts{})
+		DB.AutoMigrate(&model.User{}, &model.Account{})
+		// add to table user_accounts the column title
+		// check if colum already EXISTS
+		exists := DB.Migrator().HasColumn(&model.UserAccounts{}, "title")
+		if !exists {
+			errAddColumn := DB.Migrator().AddColumn(&model.UserAccounts{}, "title")
+			if errAddColumn != nil {
+				panic(errAddColumn)
+			}
+		}
 		fmt.Println("Database Migrated")
 	}
 

@@ -10,6 +10,9 @@ templ WalletView(viewObj *ViewObj, data WalletViewData) {
 	}
 }
 
+var activeStyleWalletInsideHeaderComponent = "inline-block p-4 text-primary bg-gray-100 border border-primary"
+var passiveStyleWalletInsideHeaderComponent = "inline-block p-4 hover:text-primary hover:bg-gray-50 mousehover"
+
 templ WalletInsideHeaderComponent(walletID string, walletTitle string, activeUrl string) {
 	<div class="flex flex-col mb-4 md:mb-6">
 		@H1Component([]string{}) {
@@ -22,35 +25,35 @@ templ WalletInsideHeaderComponent(walletID string, walletTitle string, activeUrl
 		<span class="text-gray-500 text-sm mt-4">{ walletID }</span>
 	</div>
 	<div>
-		<ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-20">
-			<li class="me-2">
+		<ul class="flex flex-wrap text-md font-medium text-center text-gray-500 border-b border-primary mb-5">
+			<li class="mr-2">
 				<a
  					href={ templ.SafeURL("/wallet/" + walletID) }
  					aria-current="page"
-                    if activeUrl == "/positions" || activeUrl == "/" {
-						class="inline-block p-4 text-blue-600 bg-gray-300 rounded-t-lg"
+ 					if activeUrl == "/positions" || activeUrl == "/" {
+						class={ activeStyleWalletInsideHeaderComponent }
 					} else {
-						class="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 mousehover"
+						class={ passiveStyleWalletInsideHeaderComponent }
 					}
 				>Positions</a>
 			</li>
-			<li class="me-2">
+			<li class="mr-2">
 				<a
  					href={ templ.SafeURL("/wallet/" + walletID + "/transactions") }
  					if activeUrl == "/transactions" {
-						class="inline-block p-4 text-blue-600 bg-gray-300 rounded-t-lg"
+						class={ activeStyleWalletInsideHeaderComponent }
 					} else {
-						class="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 mousehover"
+						class={ passiveStyleWalletInsideHeaderComponent }
 					}
 				>Transactions</a>
 			</li>
-			<li class="me-2">
+			<li class="mr-2">
 				<a
  					href={ templ.SafeURL("/wallet/" + walletID + "/staking") }
  					if activeUrl == "/staking" {
-						class="inline-block p-4 text-blue-600 bg-gray-300 rounded-t-lg"
+						class={ activeStyleWalletInsideHeaderComponent }
 					} else {
-						class="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 mousehover"
+						class={ passiveStyleWalletInsideHeaderComponent }
 					}
 				>Staking</a>
 			</li>
@@ -115,9 +118,47 @@ templ WalletInsideViewTransactions(data WalletInsideViewData) {
 	}
 }
 
-templ WalletInsideViewStaking(data WalletInsideViewData) {
-    @WalletInsideHeaderComponent(data.WalletID, data.WalletTitle, data.ActiveUrl)
-    @H3Component([]string{"mt-4"}) {
-        Staking
-    }
+type AccountAvailableYears struct {
+	Year string
+}
+
+type WalletInsideViewStakingData struct {
+	AvailableYears []AccountAvailableYears
+	SelectedYear   string // all | year
+}
+
+templ WalletInsideViewStaking(data WalletInsideViewData, stakingData WalletInsideViewStakingData) {
+	@WalletInsideHeaderComponent(data.WalletID, data.WalletTitle, data.ActiveUrl)
+	@H3Component([]string{"mt-4"}) {
+		Staking History XXXX
+	}
+	<div>
+		<ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-20">
+			<li class="me-2">
+				<a
+ 					href={ templ.SafeURL("/wallet/" + data.WalletID + "/staking?year=all") }
+ 					aria-current="page"
+ 					if stakingData.SelectedYear == "all" {
+						class="inline-block p-4 text-blue-600 bg-gray-300 rounded-t-lg"
+					} else {
+						class="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 mousehover"
+					}
+				>Overview</a>
+			</li>
+			// for each stakingData.AccountAvailableYear
+			<li class="me-2">
+				for _, year := range stakingData.AvailableYears {
+					<a
+ 						href={ templ.SafeURL("/wallet/" + data.WalletID + "/staking?year=" + year.Year) }
+ 						aria-current="page"
+ 						if stakingData.SelectedYear == year.Year {
+							class="inline-block p-4 text-blue-600 bg-gray-300 rounded-t-lg"
+						} else {
+							class="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 mousehover"
+						}
+					>{ year.Year }</a>
+				}
+			</li>
+		</ul>
+	</div>
 }

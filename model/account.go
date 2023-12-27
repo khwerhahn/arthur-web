@@ -6,10 +6,11 @@ import (
 
 type Account struct {
 	gorm.Model
-	StakeKey        string             `gorm:"not null;unique" json:"stakeKey"`
-	Title           string             `json:"title"`
-	Users           []*User            `gorm:"many2many:users_accounts;"`
-	StakeKeyHistory []*StakeKeyHistory `gorm:"foreignKey:AccountID;references:ID"`
+	StakeKey        string            `gorm:"not null" json:"stakeKey"`
+	Title           string            `json:"title"`
+	Users           []*User           `gorm:"many2many:user_accounts;"`
+	StakeKeyHistory []*AccountHistory `gorm:"foreignKey:AccountID;references:ID"`
+	Transactions    []*Transaction    `gorm:"foreignKey:AccountID;references:ID"`
 }
 
 func (A *Account) GetAccountByStakeKey(db *gorm.DB, stakeKey string) error {
@@ -36,5 +37,15 @@ func (A *Account) GetAccountByID(db *gorm.DB, id uint) (Account, error) {
 		return *A, result.Error
 	}
 	return *A, nil
+}
+
+// get user accounts details
+func (A *Account) GetUserAccountsDetails(db *gorm.DB, userID uint) ([]Account, error) {
+	var accounts []Account
+	result := db.Debug().Where("user_id = ?", userID).Preload("UserAccounts").Find(&accounts)
+	if result.Error != nil {
+		return accounts, result.Error
+	}
+	return accounts, nil
 }
 

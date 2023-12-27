@@ -35,7 +35,7 @@ func WalletsHandler(DB *gorm.DB) gin.HandlerFunc {
 			return
 		}
 		// get accounts from user_accounts
-		var userAccountsModel model.UsersAccounts
+		var userAccountsModel model.UserAccounts
 		userAccounts, err := userAccountsModel.GetUserAccounts(DB, user.ID)
 		if err != nil {
 			indexViewObj.AddError("top", "Something went wrong")
