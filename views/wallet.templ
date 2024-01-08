@@ -118,6 +118,52 @@ templ WalletInsideViewTransactions(data WalletInsideViewData) {
 	}
 }
 
+
+type WalletInsideViewStakingOverviewYear struct {
+    Year string
+    Ada  string
+    Fiat string
+}
+
+type WalletInsideViewStakingOverviewData struct {
+    Years []WalletInsideViewStakingOverviewYear
+    TotalAda string
+    TotalFiat string
+}
+
+templ WalletInsideViewStakingOverview(data WalletInsideViewStakingOverviewData) {
+	<div class="mt-2">
+		// table iterating over
+        <table class="table-auto border-collapse border-spacing-0">
+            <thead>
+                <tr>
+                    <th class="py-4 px-6 bg-gray-100 font-bold border-b border-gray-200">Year</th>
+                    <th class="py-4 px-6 bg-gray-100 font-bold border-b border-gray-200">ADA</th>
+                    <th class="py-4 px-6 bg-gray-100 font-bold border-b border-gray-200">Fiat</th>
+                </tr>
+            </thead>
+            <tbody>
+                // for each data.Years
+                <tr class="hover:bg-gray-100">
+                    <td class="py-4 px-6 border-b border-gray-200">value</td>
+                    <td class="py-4 px-6 border-b border-gray-200">value</td>
+                    <td class="py-4 px-6 border-b border-gray-200">value</td>
+                </tr>
+                // sums
+                <tr class="hover:bg-gray-100 font-semibold">
+                    <td class="py-4 px-6 border-b border-gray-200">Total</td>
+                    <td class="py-4 px-6 border-b border-gray-200">
+                        { data.TotalAda }
+                    </td>
+                    <td class="py-4 px-6 border-b border-gray-200">
+                        { data.TotalFiat }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+	</div>
+}
+
 type AccountAvailableYears struct {
 	Year string
 }
@@ -125,12 +171,17 @@ type AccountAvailableYears struct {
 type WalletInsideViewStakingData struct {
 	AvailableYears []AccountAvailableYears
 	SelectedYear   string // all | year
+    AllData        WalletInsideViewStakingOverviewData
 }
 
 templ WalletInsideViewStaking(data WalletInsideViewData, stakingData WalletInsideViewStakingData) {
 	@WalletInsideHeaderComponent(data.WalletID, data.WalletTitle, data.ActiveUrl)
 	@H3Component([]string{"mt-4"}) {
-		Staking History XXXX
+		if stakingData.SelectedYear == "all" {
+			Staking Overview
+		} else {
+			Staking { stakingData.SelectedYear }
+		}
 	}
 	<div>
 		<ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-20">
@@ -161,4 +212,5 @@ templ WalletInsideViewStaking(data WalletInsideViewData, stakingData WalletInsid
 			</li>
 		</ul>
 	</div>
+	@WalletInsideViewStakingOverview(stakingData.AllData)
 }

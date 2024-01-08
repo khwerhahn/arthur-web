@@ -72,11 +72,42 @@ func ConnectDB() {
 			// DB.Migrator().DropTable(&model.UsersAccounts{}, &model.StakeKeyHistory{}, &model.Epoch{}, &model.MarketData{}, &model.Account{})
 		}
 		DB.AutoMigrate(&model.User{}, &model.Account{})
-		// add to table user_accounts the column title
-		// check if colum already EXISTS
-		exists := DB.Migrator().HasColumn(&model.UserAccounts{}, "title")
-		if !exists {
+		// add to table user_accounts
+		// check if id exists else add it
+		existsID := DB.Migrator().HasColumn(&model.UserAccounts{}, "id")
+		if !existsID {
+			errAddColumn := DB.Migrator().AddColumn(&model.UserAccounts{}, "id")
+			if errAddColumn != nil {
+				panic(errAddColumn)
+			}
+		}
+
+		// check if column title exists
+		existsTitle := DB.Migrator().HasColumn(&model.UserAccounts{}, "title")
+		if !existsTitle {
 			errAddColumn := DB.Migrator().AddColumn(&model.UserAccounts{}, "title")
+			if errAddColumn != nil {
+				panic(errAddColumn)
+			}
+		}
+		// make sure UserAccounts has updated, created and deleted fields
+		existsCreated := DB.Migrator().HasColumn(&model.UserAccounts{}, "created_at")
+		if !existsCreated {
+			errAddColumn := DB.Migrator().AddColumn(&model.UserAccounts{}, "created_at")
+			if errAddColumn != nil {
+				panic(errAddColumn)
+			}
+		}
+		existsUpdated := DB.Migrator().HasColumn(&model.UserAccounts{}, "updated_at")
+		if !existsUpdated {
+			errAddColumn := DB.Migrator().AddColumn(&model.UserAccounts{}, "updated_at")
+			if errAddColumn != nil {
+				panic(errAddColumn)
+			}
+		}
+		existsDeleted := DB.Migrator().HasColumn(&model.UserAccounts{}, "deleted_at")
+		if !existsDeleted {
+			errAddColumn := DB.Migrator().AddColumn(&model.UserAccounts{}, "deleted_at")
 			if errAddColumn != nil {
 				panic(errAddColumn)
 			}
